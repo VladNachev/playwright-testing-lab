@@ -1,0 +1,30 @@
+{
+  "name": "pw-automation-framework",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright + TypeScript UI automation framework for automationexercise.com",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
+    "secret:encrypt": "tsx scripts/encrypt-secret.ts",
+    "secret:decrypt": "tsx scripts/decrypt-secret.ts"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "@playwright/test": "^1.54.0",
+    "@types/node": "^24.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.30.0",
+    "@typescript-eslint/parser": "^8.30.0",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.25.0",
+    "eslint-plugin-playwright": "^2.2.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0"
+  }
+}
