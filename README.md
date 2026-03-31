@@ -2,11 +2,11 @@
 
 # Playwright Automation Framework Project
 
-Professional UI test automation framework built with Playwright, TypeScript, and ESLint for [Automation Exercise](https://automationexercise.com/).
+UI automation framework built with Playwright, TypeScript, and ESLint for [Automation Exercise](https://automationexercise.com/).
 
 ## Project Goals
 
-This framework was built to demonstrate:
+This framework includes:
 
 - Playwright Test runner usage
 - TypeScript-based automation design
@@ -100,8 +100,6 @@ Real-world site behavior was handled in the framework itself, including:
 - unstable UI overlays for add-to-cart flows
 - contact form confirmation behavior
 - ad/vignette navigation interruptions
-
-That is an important part of UI automation in practice: stable design matters as much as writing the test steps.
 
 ## Project Structure
 
@@ -219,7 +217,6 @@ npm run secret:decrypt -- <encrypted-value>
 
 ## Reporting Output
 
-UI automation framework built with Playwright, TypeScript, and ESLint for https://automationexercise.com/.
 Generated outputs include:
 
 - [`playwright-report`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/playwright-report)
