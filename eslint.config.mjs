@@ -26,6 +26,7 @@ export default [
       ...playwright.configs.recommended.rules,
       '@typescript-eslint/consistent-type-imports': 'error',
       'playwright/expect-expect': 'off',
+      'playwright/valid-title': 'off',
       'no-undef': 'off'
     }
   }

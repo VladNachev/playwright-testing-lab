@@ -24,13 +24,7 @@ export class AuthWorkflow {
     await this.homePage.open();
     await this.homePage.expectLoaded();
     await this.homePage.goToSignupLogin();
-    await this.loginPage.expectSignupVisible();
-    await this.loginPage.signup(user.name, user.email);
-    await this.signupPage.expectEnterAccountInformationVisible();
-    await this.signupPage.fillRegistrationForm(user);
-    await this.signupPage.submitCreateAccount();
-    await this.signupPage.expectAccountCreatedVisible();
-    await this.signupPage.continue();
+    await this.completeRegistrationFromLoginPage(user);
     await this.homePage.expectLoggedInAs(user.name);
   }
 
@@ -43,6 +37,12 @@ export class AuthWorkflow {
     await this.loginPage.login(email, password);
   }
 
+  async loginFromCurrentPage(email: string, password: string): Promise<void> {
+    Logger.info(`Logging in from current page with ${email}`);
+    await this.loginPage.expectLoginVisible();
+    await this.loginPage.login(email, password);
+  }
+
   async logoutUser(): Promise<void> {
     await this.loginPage.logout();
     await this.loginPage.expectLoginVisible();
@@ -51,6 +51,16 @@ export class AuthWorkflow {
   async deleteCurrentUser(): Promise<void> {
     await this.homePage.deleteAccount();
     await this.signupPage.expectAccountDeletedVisible();
+    await this.signupPage.continue();
+  }
+
+  async completeRegistrationFromLoginPage(user: RegistrationUser): Promise<void> {
+    await this.loginPage.expectSignupVisible();
+    await this.loginPage.signup(user.name, user.email);
+    await this.signupPage.expectEnterAccountInformationVisible();
+    await this.signupPage.fillRegistrationForm(user);
+    await this.signupPage.submitCreateAccount();
+    await this.signupPage.expectAccountCreatedVisible();
     await this.signupPage.continue();
   }
 }

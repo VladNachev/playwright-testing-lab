@@ -12,6 +12,8 @@ export class LoginPage extends BasePage {
   readonly loginPasswordInput: Locator;
   readonly loginButton: Locator;
   readonly logoutLink: Locator;
+  readonly loginErrorMessage: Locator;
+  readonly signupErrorMessage: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -24,6 +26,8 @@ export class LoginPage extends BasePage {
     this.loginPasswordInput = page.locator('[data-qa="login-password"]');
     this.loginButton = page.locator('[data-qa="login-button"]');
     this.logoutLink = page.getByRole('link', { name: 'Logout' });
+    this.loginErrorMessage = page.getByText('Your email or password is incorrect!');
+    this.signupErrorMessage = page.getByText('Email Address already exist!');
   }
 
   async expectSignupVisible(): Promise<void> {
@@ -48,5 +52,13 @@ export class LoginPage extends BasePage {
 
   async logout(): Promise<void> {
     await this.click(this.logoutLink);
+  }
+
+  async expectIncorrectLoginError(): Promise<void> {
+    await expect(this.loginErrorMessage).toBeVisible();
+  }
+
+  async expectExistingEmailError(): Promise<void> {
+    await expect(this.signupErrorMessage).toBeVisible();
   }
 }
