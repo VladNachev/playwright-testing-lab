@@ -1,5 +1,3 @@
-![CI](https://github.com/VladNachev/playwright-testing-lab/actions/workflows/ci.yml/badge.svg)
-
 # Playwright Automation Framework Project
 
 UI automation framework built with Playwright, TypeScript, and ESLint for [Automation Exercise](https://automationexercise.com/).
@@ -18,7 +16,6 @@ This framework includes:
 - environment-based configuration
 - test data generation
 - credential encryption support
-- GitHub Actions CI integration
 
 ## Tech Stack
 
@@ -27,7 +24,6 @@ This framework includes:
 - ESLint
 - Faker
 - Node.js
-- GitHub Actions
 
 ## Current Coverage
 
@@ -104,7 +100,6 @@ Real-world site behavior was handled in the framework itself, including:
 ## Project Structure
 
 ```text
-.github/workflows/       GitHub Actions CI pipeline
 scripts/                 Helper scripts
 src/config/              Environment and config handling
 src/data/                Test data factories
@@ -183,8 +178,6 @@ npm run lint
 npm run typecheck
 ```
 
-These checks are also part of CI.
-
 ## Environment Configuration
 
 Environment values are managed through:
@@ -222,22 +215,4 @@ Generated outputs include:
 - [`playwright-report`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/playwright-report)
 - [`test-results`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/test-results)
 
-These artifacts are useful for debugging, demonstrations, and CI review.
-
-## CI Pipeline
-
-The GitHub Actions pipeline is defined in [`.github/workflows/ci.yml`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/.github/workflows/ci.yml).
-
-It runs on:
-
-- pushes to `master`
-- pull requests targeting `master`
-
-The workflow performs:
-
-- dependency installation
-- Playwright browser installation
-- ESLint validation
-- TypeScript type checking
-- Playwright test execution
-- artifact upload for reports and test results
+These artifacts are useful for debugging and demonstrations.
