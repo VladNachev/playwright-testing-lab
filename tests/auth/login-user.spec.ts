@@ -1,35 +1,38 @@
 import { attachScreenshot } from '../../src/utils/evidence.util';
 import { test } from '../../src/fixtures/test-fixtures';
+import type { RegistrationUser } from '../../src/types/user';
 
 test.describe('Authentication - login user', () => {
-  test('logs in with correct email and password', async ({
-    authWorkflow,
-    homePage,
-    page,
-    registrationUser
-  }, testInfo) => {
-    await authWorkflow.registerUser(registrationUser, testInfo);
+  let registeredUser: RegistrationUser;
+
+  test.beforeEach(async ({ authWorkflow, registrationUser }, testInfo) => {
+    registeredUser = registrationUser;
+    await authWorkflow.registerUser(registeredUser, testInfo);
     await authWorkflow.logoutUser();
-    await authWorkflow.loginUser(registrationUser.email, registrationUser.password);
-    await homePage.expectLoggedInAs(registrationUser.name);
+  });
+
+  test.afterEach(async ({ authWorkflow }) => {
+    try {
+      await authWorkflow.deleteCurrentUser();
+    } catch {
+      await authWorkflow.loginUser(registeredUser.email, registeredUser.password);
+      await authWorkflow.deleteCurrentUser();
+    }
+  });
+
+  test('logs in with correct email and password', async ({ authWorkflow, homePage, page }, testInfo) => {
+    await authWorkflow.loginUser(registeredUser.email, registeredUser.password);
+    await homePage.expectLoggedInAs(registeredUser.name);
     await attachScreenshot(page, testInfo, 'logged-in-user-home');
-    await authWorkflow.deleteCurrentUser();
   });
 
   test('fails to log in with incorrect password', async ({
     authWorkflow,
-    homePage,
     loginPage,
-    page,
-    registrationUser
+    page
   }, testInfo) => {
-    await authWorkflow.registerUser(registrationUser, testInfo);
-    await authWorkflow.logoutUser();
-    await authWorkflow.loginUser(registrationUser.email, 'wrongpassword');
+    await authWorkflow.loginUser(registeredUser.email, 'wrongpassword');
     await loginPage.expectIncorrectLoginError();
     await attachScreenshot(page, testInfo, 'login-error');
-    await authWorkflow.loginFromCurrentPage(registrationUser.email, registrationUser.password);
-    await homePage.expectLoggedInAs(registrationUser.name);
-    await authWorkflow.deleteCurrentUser();
   });
 });
