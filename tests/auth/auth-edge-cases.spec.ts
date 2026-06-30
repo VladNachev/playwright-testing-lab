@@ -24,6 +24,18 @@ test.describe('Authentication - edge cases and session flow', () => {
     await authWorkflow.logoutUser();
   });
 
+  test('Session persists after page reload', async ({
+    authWorkflow,
+    homePage,
+    registrationUser
+  }) => {
+    await authWorkflow.registerUser(registrationUser);
+    await homePage.expectLoggedInAs(registrationUser.name);
+    await homePage.reload();
+    await homePage.expectLoggedInAs(registrationUser.name);
+    await authWorkflow.deleteCurrentUser();
+  });
+
   test('Test Case 5: Register User with existing email', async ({
     authWorkflow,
     homePage,

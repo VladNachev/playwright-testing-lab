@@ -32,6 +32,11 @@ export abstract class BasePage {
     await expect(locator).toBeVisible();
   }
 
+  async reload(): Promise<void> {
+    await this.page.reload();
+    await this.dismissConsentBannerIfPresent();
+  }
+
   protected async hover(locator: Locator): Promise<void> {
     await this.dismissConsentBannerIfPresent();
     await locator.hover();

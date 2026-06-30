@@ -52,6 +52,7 @@ export class LoginPage extends BasePage {
 
   async logout(): Promise<void> {
     await this.click(this.logoutLink);
+    await this.page.waitForURL(/\/login$/);
   }
 
   async expectIncorrectLoginError(): Promise<void> {

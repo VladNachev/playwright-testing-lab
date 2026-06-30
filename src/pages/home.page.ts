@@ -76,6 +76,14 @@ export class HomePage extends BasePage {
 
   async deleteAccount(): Promise<void> {
     await this.click(this.deleteAccountLink);
+    // If the consent banner intercepted the click the URL won't change; retry once.
+    try {
+      await this.page.waitForURL(/\/delete_account$/, { timeout: 5_000 });
+    } catch {
+      await this.dismissConsentBannerIfPresent();
+      await this.deleteAccountLink.click();
+      await this.page.waitForURL(/\/delete_account$/, { timeout: 10_000 });
+    }
   }
 
   async expectNavigatedToTestCasesPage(): Promise<void> {

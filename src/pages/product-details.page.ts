@@ -56,4 +56,12 @@ export class ProductDetailsPage extends BasePage {
   async expectReviewSuccess(): Promise<void> {
     await expect(this.reviewSuccessMessage).toContainText('Thank you for your review.');
   }
+
+  async getProductName(): Promise<string> {
+    return (await this.productName.innerText()).trim();
+  }
+
+  async getProductPrice(): Promise<string> {
+    return (await this.page.locator('.product-information span span').innerText()).trim();
+  }
 }

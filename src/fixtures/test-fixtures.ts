@@ -1,4 +1,5 @@
 import { test as base } from '@playwright/test';
+import path from 'node:path';
 
 import { createPaymentDetails } from '../data/payment.factory';
 import { createRegistrationUser } from '../data/user.factory';
@@ -70,7 +71,7 @@ export const test = base.extend<AppFixtures & DataFixtures>({
     await use(createPaymentDetails());
   },
   uploadFilePath: async ({}, use) => {
-    await use('C:\\Users\\nache\\Documents\\VSCode_projects\\pw_automation_framework\\test-data\\files\\contact-message.txt');
+    await use(path.resolve(__dirname, '../../test-data/files/contact-message.txt'));
   }
 });
 

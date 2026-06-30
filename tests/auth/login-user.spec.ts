@@ -12,11 +12,17 @@ test.describe('Authentication - login user', () => {
   });
 
   test.afterEach(async ({ authWorkflow }) => {
+    // A failed test may have left the session logged out (e.g. the "incorrect password" case),
+    // so attempt deletion directly and re-login only if that throws.
     try {
       await authWorkflow.deleteCurrentUser();
     } catch {
-      await authWorkflow.loginUser(registeredUser.email, registeredUser.password);
-      await authWorkflow.deleteCurrentUser();
+      try {
+        await authWorkflow.loginUser(registeredUser.email, registeredUser.password);
+        await authWorkflow.deleteCurrentUser();
+      } catch (fallbackError) {
+        console.error(`[afterEach] Cleanup failed for ${registeredUser.email}:`, fallbackError);
+      }
     }
   });
 

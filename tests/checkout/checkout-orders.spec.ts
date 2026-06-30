@@ -1,4 +1,6 @@
 import { test, expect } from '../../src/fixtures/test-fixtures';
+import type { CheckoutPage } from '../../src/pages/checkout.page';
+import type { PaymentPage, PaymentDetails } from '../../src/pages/payment.page';
 
 const ORDER_COMMENT = 'Order placed by the Playwright portfolio framework.';
 
@@ -8,29 +10,9 @@ test.describe('Checkout, order placement, address verification, and invoice', ()
     paymentDetails,
     paymentPage
   }: {
-    checkoutPage: {
-      expectLoaded: () => Promise<void>;
-      addComment: (comment: string) => Promise<void>;
-      placeOrder: () => Promise<void>;
-    };
-    paymentDetails: {
-      nameOnCard: string;
-      cardNumber: string;
-      cvc: string;
-      expiryMonth: string;
-      expiryYear: string;
-    };
-    paymentPage: {
-      fillPaymentDetails: (details: {
-        nameOnCard: string;
-        cardNumber: string;
-        cvc: string;
-        expiryMonth: string;
-        expiryYear: string;
-      }) => Promise<void>;
-      submitPayment: () => Promise<void>;
-      expectOrderPlaced: () => Promise<void>;
-    };
+    checkoutPage: CheckoutPage;
+    paymentDetails: PaymentDetails;
+    paymentPage: PaymentPage;
   }): Promise<void> => {
     await checkoutPage.expectLoaded();
     await checkoutPage.addComment(ORDER_COMMENT);

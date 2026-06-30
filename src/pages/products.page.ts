@@ -108,4 +108,13 @@ export class ProductsPage extends BasePage {
   async expectCategoryPageVisible(expectedHeading: RegExp): Promise<void> {
     await expect(this.page.locator('.features_items .title.text-center')).toContainText(expectedHeading);
   }
+
+  async expectNoSearchResults(): Promise<void> {
+    await expect(this.searchedProductsHeader).toBeVisible();
+    await expect(this.productCards).toHaveCount(0);
+  }
+
+  async getProductCount(): Promise<number> {
+    return this.productCards.count();
+  }
 }

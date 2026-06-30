@@ -165,4 +165,41 @@ test.describe('Cart and quantity management', () => {
     const cartItems = await cartPage.getItems();
     expect(cartItems.map((item) => item.name)).toContain(recommendedItemName);
   });
+
+  test('Checkout without login shows register/login modal', async ({
+    cartPage,
+    homePage,
+    productDetailsPage,
+    productsPage
+  }) => {
+    await homePage.open();
+    await homePage.expectLoaded();
+    await homePage.goToProducts();
+    await productsPage.expectLoaded();
+    await productsPage.openProductDetails(0);
+    await productDetailsPage.expectLoaded();
+    await productDetailsPage.addToCart();
+    await homePage.clickViewCartFromModal();
+    await cartPage.proceedToCheckout();
+    await cartPage.expectCheckoutLoginModalVisible();
+  });
+
+  test('Cart total equals unit price when quantity is 1', async ({
+    cartPage,
+    homePage,
+    productDetailsPage,
+    productsPage
+  }) => {
+    await homePage.open();
+    await homePage.expectLoaded();
+    await homePage.goToProducts();
+    await productsPage.expectLoaded();
+    await productsPage.openProductDetails(0);
+    await productDetailsPage.expectLoaded();
+    await productDetailsPage.addToCart();
+    await homePage.clickViewCartFromModal();
+
+    const [item] = await cartPage.getItems();
+    expect(item.total).toBe(item.price);
+  });
 });

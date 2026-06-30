@@ -68,6 +68,10 @@ export class CartPage extends BasePage {
     await expect(this.page.getByText('Cart is empty!')).toBeVisible();
   }
 
+  async expectCheckoutLoginModalVisible(): Promise<void> {
+    await expect(this.registerLoginLink).toBeVisible();
+  }
+
   async expectSubscriptionVisible(): Promise<void> {
     await expect(this.subscriptionHeader).toBeVisible();
   }
