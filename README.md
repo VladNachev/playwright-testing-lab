@@ -1,5 +1,3 @@
-![CI](https://github.com/VladNachev/playwright-testing-lab/actions/workflows/ci.yml/badge.svg)
-
 # Playwright Automation Framework Project
 
 UI automation framework built with Playwright, TypeScript, and ESLint for [Automation Exercise](https://automationexercise.com/).
@@ -26,17 +24,6 @@ This framework includes:
 - ESLint
 - Faker
 - Node.js
-
-## CI/CD
-
-Every push and pull request to `master` runs the full test suite on GitHub Actions.
-
-The pipeline:
-
-1. installs dependencies and Playwright browsers
-2. runs all tests in headless Chromium with 2 workers
-3. uploads the HTML report and raw test results as downloadable artifacts (retained for 30 days)
-4. deploys the HTML report to GitHub Pages on every push to `master`
 
 ### View the live report
 
