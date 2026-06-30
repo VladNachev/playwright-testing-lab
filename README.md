@@ -1,3 +1,5 @@
+![CI](https://github.com/VladNachev/playwright-testing-lab/actions/workflows/ci.yml/badge.svg)
+
 # Playwright Automation Framework Project
 
 UI automation framework built with Playwright, TypeScript, and ESLint for [Automation Exercise](https://automationexercise.com/).
@@ -25,9 +27,35 @@ This framework includes:
 - Faker
 - Node.js
 
+## CI/CD
+
+Every push and pull request to `master` runs the full test suite on GitHub Actions.
+
+The pipeline:
+
+1. installs dependencies and Playwright browsers
+2. runs all tests in headless Chromium with 2 workers
+3. uploads the HTML report and raw test results as downloadable artifacts (retained for 30 days)
+4. deploys the HTML report to GitHub Pages on every push to `master`
+
+### View the live report
+
+The latest Playwright HTML report is published after every push to `master`:
+
+**<https://vladnachev.github.io/playwright-testing-lab/>**
+
+### Download artifacts
+
+From any workflow run you can download:
+
+- `playwright-report` — the full interactive HTML report
+- `test-results` — raw JSON, JUnit XML, screenshots, videos, and traces
+
+Go to **Actions → select a run → Artifacts** at the bottom of the run summary page.
+
 ## Current Coverage
 
-The suite currently automates all **27 official Automation Exercise test cases**.
+The suite automates all **26 official Automation Exercise test cases** plus **5 additional edge-case and consistency tests**.
 
 Feature coverage includes:
 
@@ -35,11 +63,16 @@ Feature coverage includes:
 - login and logout
 - invalid login handling
 - duplicate email validation
+- session persistence across page reloads
 - contact form flow
 - products page and product details
-- search
+- product listing vs detail page price consistency
+- search with results
+- search with no results (empty state)
 - cart management
 - quantity validation
+- checkout modal guard (guest user)
+- cart total calculation
 - checkout and payment
 - address verification
 - invoice download
@@ -53,12 +86,12 @@ Feature coverage includes:
 
 ### Page Object Model
 
-Selectors and UI interactions are isolated into page classes under [`src/pages`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/src/pages).  
+Selectors and UI interactions are isolated into page classes under [`src/pages`](src/pages).  
 This keeps tests readable and reduces maintenance when the UI changes.
 
 ### Workflow Layer
 
-Reusable business actions are placed in [`src/workflows`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/src/workflows).  
+Reusable business actions are placed in [`src/workflows`](src/workflows).  
 For example, user registration is treated as a reusable business flow instead of being rewritten in every test.
 
 ### Strong Typing
@@ -92,7 +125,8 @@ The framework produces:
 
 Real-world site behavior was handled in the framework itself, including:
 
-- cookie/consent overlays
+- cookie/consent overlays with DOM-removal fallback
+- consent banner retry logic on navigation (reload, delete account)
 - unstable UI overlays for add-to-cart flows
 - contact form confirmation behavior
 - ad/vignette navigation interruptions
@@ -100,6 +134,7 @@ Real-world site behavior was handled in the framework itself, including:
 ## Project Structure
 
 ```text
+.github/workflows/       CI/CD pipeline definitions
 scripts/                 Helper scripts
 src/config/              Environment and config handling
 src/data/                Test data factories
@@ -116,11 +151,11 @@ tests/                   Automated test specs grouped by feature
 
 The suite is grouped by functional area:
 
-- [`tests/auth`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/tests/auth)
-- [`tests/navigation`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/tests/navigation)
-- [`tests/products`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/tests/products)
-- [`tests/cart`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/tests/cart)
-- [`tests/checkout`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/tests/checkout)
+- [`tests/auth`](tests/auth)
+- [`tests/navigation`](tests/navigation)
+- [`tests/products`](tests/products)
+- [`tests/cart`](tests/cart)
+- [`tests/checkout`](tests/checkout)
 
 This organization keeps the suite scalable and easier to debug than storing all scenarios in one large file.
 
@@ -182,37 +217,28 @@ npm run typecheck
 
 Environment values are managed through:
 
-- [`.env.example`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/.env.example)
-- [`.env.local`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/.env.local)
-- [`src/config/env.ts`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/src/config/env.ts)
+- [`.env.example`](.env.example)
+- [`.env.local`](.env.local) *(local only, not committed)*
+- [`src/config/env.ts`](src/config/env.ts)
 
-Examples of configurable values:
+Configurable values:
 
-- `BASE_URL`
-- `HEADLESS`
-- `DEFAULT_PASSWORD`
-- `ENCRYPTION_KEY`
+| Variable | Default | Description |
+|---|---|---|
+| `BASE_URL` | `https://automationexercise.com` | Target site URL |
+| `HEADLESS` | `true` | Run browser headlessly |
+| `DEFAULT_PASSWORD` | `Password123!` | Password used for generated test users |
+| `ENCRYPTION_KEY` | *(passphrase)* | Key for the credential encryption helpers |
 
 ## Credential Encryption
 
 The framework includes simple credential encryption helpers for local usage:
 
-- [`src/utils/crypto.util.ts`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/src/utils/crypto.util.ts)
-- [`scripts/encrypt-secret.ts`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/scripts/encrypt-secret.ts)
-- [`scripts/decrypt-secret.ts`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/scripts/decrypt-secret.ts)
-
-Examples:
+- [`src/utils/crypto.util.ts`](src/utils/crypto.util.ts)
+- [`scripts/encrypt-secret.ts`](scripts/encrypt-secret.ts)
+- [`scripts/decrypt-secret.ts`](scripts/decrypt-secret.ts)
 
 ```bash
 npm run secret:encrypt -- MyPassword123!
 npm run secret:decrypt -- <encrypted-value>
 ```
-
-## Reporting Output
-
-Generated outputs include:
-
-- [`playwright-report`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/playwright-report)
-- [`test-results`](C:/Users/nache/Documents/VSCode_projects/pw_automation_framework/test-results)
-
-These artifacts are useful for debugging and demonstrations.
