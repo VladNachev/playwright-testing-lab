@@ -8,16 +8,16 @@ UI automation framework built with Playwright, TypeScript, and ESLint for [Autom
 
 This framework includes:
 
-- Playwright Test runner usage
-- TypeScript-based automation design
-- Page Object Model structure
-- reusable workflows and utilities
-- parallel-safe test design
-- reporting and test evidence collection
-- retry strategy and stability handling
-- environment-based configuration
-- test data generation
-- credential encryption support
+- Playwright Test runner usage.
+- TypeScript-based automation design.
+- Page Object Model structure.
+- reusable workflows and utilities.
+- parallel-safe test design.
+- reporting and test evidence collection.
+- retry strategy and stability handling.
+- environment-based configuration.
+- test data generation.
+- credential encryption support.
 
 ## Tech Stack
 
